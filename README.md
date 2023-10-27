@@ -9,7 +9,7 @@ Formacao DevOps Aula 26
 
 - Para a execução de múltiplos pipelines, a organização do Azure DevOps deve possuir mais de 1 Agent
   
-### Criar 4 repositórios no Azure DevOps (inicializando cada repositório som seu README.md) e o seu respective azure-pipelines.yml contido em cada uma das pasta aqui disponibilizadas:
+### Criar 4 repositórios no Azure DevOps (inicializando cada repositório com seu README.md) e o seu respectivo azure-pipelines.yml contido em cada uma das pasta aqui disponibilizadas:
 - Pipe1
 - Pipe2
 - Pipe3
