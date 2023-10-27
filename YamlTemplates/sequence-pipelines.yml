@@ -1,0 +1,53 @@
+parameters:
+- name: allPipes
+  type: object
+  default: []
+
+stages:
+- ${{ each pipe in parameters.allPipes }}: 
+  - ${{ each depend in pipe.pipeDepends }}:
+    - ${{ each currentBranch in pipe.pipeBranch }}:
+      - stage: ${{ replace(replace(pipe.pipeExec, '.', '_'), '-', '_') }}
+        displayName: ${{ pipe.pipeExec }}
+        ${{ if ne(depend, '') }}:
+          dependsOn: ${{ replace(replace(depend, '.', '_'), '-', '_') }}
+        jobs:
+        - job: ${{ replace(replace(pipe.pipeExec, '.', '_'), '-', '_') }}
+          displayName: ${{ pipe.pipeExec }}
+          steps:
+          - task: PowerShell@2
+            inputs:
+              targetType: 'inline'
+              script: |
+                $organization="$env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI"
+                $project="$env:SYSTEM_TEAMPROJECT"
+                az config set extension.use_dynamic_install=yes_without_prompt
+                az devops configure --defaults organization=$organization project=$project
+                $buildQueue = (az pipelines build queue --organization $organization --project $project --definition-name ${{ pipe.pipeExec }} --branch ${{ currentBranch }} ) | ConvertFrom-Json
+                $buildNumber = $buildQueue.buildNumber
+                
+                if ($null -ne $buildNumber)
+                {
+                  # Get the status of triggered build
+                  $buildDetails = (az pipelines build show --id $buildQueue.id --detect true --organization $organization --project $project) | ConvertFrom-Json
+                  while ($buildDetails.status -ne "completed")
+                  {
+                    Start-Sleep -Seconds 10
+                    if ($buildDetails.status -eq "notStarted")
+                    {
+                      $messageQueued = "${{ pipe.pipeExec }} with build number $buildNumber is queued..."
+                      Write-Host $messageQueued -ForegroundColor Green
+                    }
+                    # Get the status of the triggered build again
+                    Write-Host "Checking if ${{ pipe.pipeExec }} with build number $($buildNumber) is still running..." -ForegroundColor Green
+                    $buildDetails = (az pipelines build show --id $buildQueue.id --detect true --organization $organization --project $project) | ConvertFrom-Json
+                  }
+                  if ($buildDetails.result -eq "canceled" -Or $buildDetails.result -eq "failed")
+                  {
+                    Write-Error "The build number $buildNumber is $($buildDetails.result)"
+                  }                  
+                }
+              pwsh: true
+            displayName: 'Run ${{ pipe.pipeExec }}'
+            env:
+              AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
