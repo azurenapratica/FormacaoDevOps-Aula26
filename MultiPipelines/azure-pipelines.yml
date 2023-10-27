@@ -1,0 +1,28 @@
+trigger:
+- none
+
+pool:
+  vmImage: ubuntu-latest
+
+resources:
+  repositories:
+    - repository: YamlTemplates
+      type: git
+      name: MultiPipelines/YamlTemplates
+      ref: refs/heads/main
+extends:
+  template: sequence-pipelines.yml@YamlTemplates
+  parameters:
+    allPipes:
+    - pipeExec: 'Pipe1'
+      pipeDepends: ['']
+      pipeBranch: ['main']
+    - pipeExec: 'Pipe2'
+      pipeDepends: ['Pipe1']
+      pipeBranch: ['main']
+    - pipeExec: 'Pipe3'
+      pipeDepends: ['Pipe2']
+      pipeBranch: ['main']
+    - pipeExec: 'Pipe4'
+      pipeDepends: ['Pipe3']
+      pipeBranch: ['main']
