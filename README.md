@@ -29,6 +29,7 @@ Formacao DevOps Aula 26
 
 
 ### Criar um repositório MultiPipelines e incluir o arquivo azure-pipelines.yml (disponível na pasta MultiPipelines)
+<img width="694" alt="image" src="https://github.com/azurenapratica/FormacaoDevOps-Aula26/assets/8333012/1046eb9e-3193-4912-bc8b-e566973d9a56">
 
 ### Criar e executar uma Build Definition para o repositório MultiPipelines apontando para o arquivo azure-pipelines.yml
 
