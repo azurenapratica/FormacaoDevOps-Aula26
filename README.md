@@ -33,4 +33,5 @@ Formacao DevOps Aula 26
 
 ### Criar e executar uma Build Definition para o repositório MultiPipelines apontando para o arquivo azure-pipelines.yml
 
+<img width="515" alt="image" src="https://github.com/azurenapratica/FormacaoDevOps-Aula26/assets/8333012/549ba279-e168-4229-960a-56d0e84ceb59">
 
