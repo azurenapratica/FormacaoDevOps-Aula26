@@ -1,0 +1,9 @@
+trigger:
+- none
+
+pool:
+  name: Default
+
+steps:
+- script: echo Pipe 2
+  displayName: 'Pipe 2'
