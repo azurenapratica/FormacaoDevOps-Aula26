@@ -4,10 +4,11 @@ Formacao DevOps Aula 26
 ## Instruções para uso do repositório
 
 ### Pré Requisitos
-- ff
-- ff
-- ff
+- O usuário do Build deve ter permissão de **Queue Build**
+  ![image](https://github.com/azurenapratica/FormacaoDevOps-Aula26/assets/8333012/c091c60c-a7ab-49cc-8925-6b8d524a1622)
 
+- Para a execução de múltiplos pipelines, a organização do Azure DevOps deve possuir mais de 1 Agent
+  
 ### Criar 4 repositórios no Azure DevOps (inicializando cada repositório som seu README.md) e o seu respective azure-pipelines.yml contido em cada uma das pasta aqui disponibilizadas:
 - Pipe1
 - Pipe2
